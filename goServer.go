@@ -32,14 +32,14 @@ func pullStringReq(key string, val string, UUID string) {
 
 func main() {
 	router := martini.Classic()
-	router.Get("/conversation", func() {
-
+	router.Get("/conversation", func(w http.ResponseWriter) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		pullStringReq("project", projID, "")
 
 		})
 
-	router.Get("/conversation/:UUID", func(params martini.Params, r *http.Request) {
-
+	router.Get("/conversation/:UUID", func(w http.ResponseWriter, params martini.Params, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		text := r.URL.Query().Get("text")
 		UUID := "/" + params["UUID"]
 

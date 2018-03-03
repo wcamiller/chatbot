@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<body>
+	<div id="el">
+		<ul id="chats">
+			<li 
+			is="chat" 
+			v-for="chat in chats"
+			v-bind:text="chat.text"
+			></li>
+		</ul>
+		<input v-model="newChat" v-on:keyup.13="doThis" />
+	</div>
+
+</body>
+</html>
+<script>
+	const SERVER = "http://52.27.58.29:3000";
+
+	var data = {
+		newChat: '',
+		chats: []
+	}
+
+	Vue.component('chat', {
+		template: '<li>{{ text }}</li>',
+		props: ['text']
+	});
+
+	var vm = new Vue({
+		el: '#el',
+		data: data,
+		methods: {
+			doThis: function (e) {
+				axios.get(SERVER + '/conversation')
+				.then(function (response) {
+					console.log(response);
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+				data.chats.push({
+					text: data.newChat
+				});
+				data.newChat = '';
+
+			}
+		}
+	});
+
+
+
+
+
+</script>
