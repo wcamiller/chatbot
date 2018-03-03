@@ -1,6 +1,6 @@
 package main
 
-import ("github.com/gin-gonic/gin"
+import ("github.com/go-martini/martini"
 		"net/http"
 		"bytes"
 		"io/ioutil"
@@ -31,21 +31,21 @@ func pullStringReq(key string, val string, UUID string) {
 }
 
 func main() {
-	router := gin.Default()
-	router.GET("/conversation", func(c *gin.Context) {
+	router := martini.Classic()
+	router.Get("/conversation", func() {
 
 		pullStringReq("project", projID, "")
 
 		})
 
-	router.GET("/conversation/:UUID", func(c *gin.Context) {
+	router.Get("/conversation/:UUID", func(params martini.Params, r *http.Request) {
 
-		text := c.Query("text")
-		UUID := "/" + c.Param("UUID")
+		text := r.URL.Query().Get("text")
+		UUID := "/" + params["UUID"]
 
 		pullStringReq("text", text, UUID)
 
 		})
 
-	router.Run(":3000")
+	router.RunOnAddr(":3000")
 }
