@@ -21,7 +21,6 @@ const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
 const apiKey string = "9fd2a189-3d57-4c02-8a55-5f0159bff2cf"
 
 func pullStringReq(key string, val string, UUID string) PullstringResp {
-	jsonStr := []byte("{\"" + key + "\": \"" + val + "\"}")
 	req, err := http.NewRequest(
 		"POST",
 		"https://conversation.pullstring.ai/v1/conversation" + UUID,
@@ -59,7 +58,7 @@ func main() {
 	router.Use(render.Renderer())
 
 	router.Get("/conversation", func(w http.ResponseWriter, r render.Render) {
-		//w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		msg := pullStringReq("project", projID, "")
 		txt := msg.Conversation
 		r.JSON(200, txt)
@@ -68,7 +67,7 @@ func main() {
 		})
 
 	router.Get("/conversation/:UUID", func(w http.ResponseWriter, params martini.Params, req *http.Request, r render.Render) {
-		//w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		text := req.URL.Query().Get("text")
 		UUID := "/" + params["UUID"]
 
