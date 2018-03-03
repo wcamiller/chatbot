@@ -61,22 +61,15 @@ func main() {
 	router.Get("/conversation", func(w http.ResponseWriter, r render.Render) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		msg := pullStringReq("project", projID, "")
-		txt := msg.Conversation
-		r.JSON(200, txt)
-
-
+		r.JSON(200, msg)
 		})
 
 	router.Get("/conversation/:UUID", func(w http.ResponseWriter, params martini.Params, req *http.Request, r render.Render) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		text := req.URL.Query().Get("text")
 		UUID := "/" + params["UUID"]
-
 		msg := pullStringReq("text", text, UUID)
-		txt := msg.Outputs[0]
-		r.JSON(200, txt)
-
-
+		r.JSON(200, msg)
 		})
 
 	router.RunOnAddr(":3000")

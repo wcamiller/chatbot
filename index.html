@@ -20,6 +20,8 @@
 </html>
 <script>
 	const SERVER = "http://52.27.58.29:3000";
+	var firstChat = true;
+	var UUID;
 
 	var data = {
 		newChat: '',
@@ -36,17 +38,30 @@
 		data: data,
 		methods: {
 			doThis: function (e) {
-				axios.get(SERVER + '/conversation')
-				.then(function (response) {
-					console.log(response);
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
-				data.chats.push({
-					text: data.newChat
-				});
-				data.newChat = '';
+				if (firstChat === true) {
+					axios.get(SERVER + '/conversation')
+					.then(function (response) {
+						UUID = response.data;
+						firstChat = false;
+						console.log(response);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+
+				} else {
+					axios.get(SERVER + '/conversation/' + UUID)
+					.then(function (response) {
+						// data.chats.push({
+						// 	text: data.newChat
+						// });
+						// data.newChat = '';
+						console.log(response);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+				}
 
 			}
 		}
