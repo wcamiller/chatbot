@@ -21,6 +21,7 @@ const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
 const apiKey string = "9fd2a189-3d57-4c02-8a55-5f0159bff2cf"
 
 func pullStringReq(key string, val string, UUID string) PullstringResp {
+	jsonStr := []byte("{\"" + key + "\": \"" + val + "\"}")
 	req, err := http.NewRequest(
 		"POST",
 		"https://conversation.pullstring.ai/v1/conversation" + UUID,
