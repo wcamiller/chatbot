@@ -67,7 +67,7 @@ func main() {
 	router.Use(render.Renderer())
 
 	static := martini.Static("assets", martini.StaticOptions{Fallback: "/index.html"})
-	router.NotFound(static, http.NotFound)
+	//router.NotFound(static, http.NotFound)
 
 	router.Get("/conversation", func(w http.ResponseWriter, r render.Render) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
