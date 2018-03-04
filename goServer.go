@@ -15,6 +15,7 @@ type Text struct {
 type PullstringResp struct {
 	Outputs []Text
 	Conversation string
+	TimeInterval float64
 }
 
 const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
@@ -69,6 +70,7 @@ func main() {
 		text := req.URL.Query().Get("text")
 		UUID := "/" + params["UUID"]
 		msg := pullStringReq("text", text, UUID)
+
 		r.JSON(200, msg)
 		})
 
