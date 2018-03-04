@@ -15,7 +15,7 @@ type Text struct {
 type PullstringResp struct {
 	Outputs []Text
 	Conversation string
-	Timed_Response_Interval float64
+	TimedResponseInterval float64
 }
 
 const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
