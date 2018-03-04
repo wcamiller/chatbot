@@ -23,7 +23,13 @@ const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
 const apiKey string = "9fd2a189-3d57-4c02-8a55-5f0159bff2cf"
 
 func pullStringReq(key string, val string, UUID string) PullstringResp {
-	jsonStr := []byte("{\"" + key + "\": \"" + val + "\"}")
+	var jsonStr []byte
+	if (len(key) == 0 && len(val) == 0) {
+		jsonStr = []byte("{}")
+	} else {
+		jsonStr = []byte("{\"" + key + "\": \"" + val + "\"}")
+	}
+	println(string(jsonStr))
 	req, err := http.NewRequest(
 		"POST",
 		"https://conversation.pullstring.ai/v1/conversation" + UUID,
@@ -71,7 +77,14 @@ func main() {
 		text := req.URL.Query().Get("text")
 		UUID := "/" + params["UUID"]
 		msg := pullStringReq("text", text, UUID)
+		println(text)
+		r.JSON(200, msg)
+		})
 
+	router.Get("/wakeup/:UUID", func (w http.ResponseWriter, params martini.Params, req *http.Request, r render.Render) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		UUID := "/" + params["UUID"]
+		msg := pullStringReq("", "", UUID)
 		r.JSON(200, msg)
 		})
 
