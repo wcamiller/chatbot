@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
-	<link rel="stylesheet" type="text/css" href="css/custom.css">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/custom.css">
+
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 <body>
-	<div class="custom navbar-brand navbar-fixed-top">
-  		<a class="navbar-brand">Welcome to PullString Chat
-  		    <img src="assets/logo/pullstring-logo.jpg" width="30" height="30" alt="">
-		</a>
+	<div class="navbar custom navbar-text navbar-fixed-top">
+		<h1 class="media-heading">Welcome to PullString Chat</h1>
 	</div>
 	<div id="el" class="col-md-12 right-header-contentChat">
-
 		<ul>
 			<li 
 			is="chat" 
@@ -26,7 +24,7 @@
 			></li>
 		</ul>
 		<div class="col-md-12 right-chat-textbox navbar navbar-default navbar-fixed-bottom">
-			<input type="text" type="text" v-model="newChat" v-on:keyup.13="submitChat"><a href="#"><i class="fa fa-arrow-right" aria-hidden="true" ></i></a>
+			<input type="text" type="text" v-model="newChat" v-on:keyup.13="submitChat" autofocus><a v-on:click="submitChat" href="#"><i class="fa fa-arrow-right" aria-hidden="true" ></i></a>
 		</div>
 	</div>
 </body>
