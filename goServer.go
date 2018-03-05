@@ -38,9 +38,6 @@ type PullstringResp struct {
 
 var args []string = os.Args[1:]
 
-// const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
-// const apiKey string = "9fd2a189-3d57-4c02-8a55-5f0159bff2cf"
-
 var projID string = args[0]
 var apiKey string = args[1]
 
