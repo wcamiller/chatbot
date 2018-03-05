@@ -86,6 +86,7 @@ var vm = new Vue({
 		}, 
 
 		/* main logic for making calls to golang server a receiving JSON data */
+		
 		addNewChat: addNewChat = function (UUIDval) {
 
 			axios.get('/conversation/' + chatData.UUID + "?text=" + chatData.newChat)
