@@ -1,13 +1,30 @@
 package main
 
+/*
+Due to the fact that credentials were being passed around, I decied to roll a small golang webserver using
+the martini framework as a means to better familiarize myself with the language. There are three routes:
+
+	/conversation
+	/conversation/:UUID
+	/wakeup/:UUID 
+
+All of these correspond in fairly straightforward fashion with the PullString API's endpoints, the exception
+being /wakeup, which simply transmits and empty JSON in order to elicit follow-up content.
+*/
+
 import ("github.com/go-martini/martini"
   		"github.com/martini-contrib/render"
 		"net/http"
 		"bytes"
 		"io/ioutil"
 		"encoding/json"
+		"os"
 
 )
+
+/* structs to store JSON data, including array of structs to contain "outputs" array - golang is quite opinionated
+in this regard! */
+
 type Text struct {
 	Text string
 }
@@ -19,8 +36,15 @@ type PullstringResp struct {
 	Is_Fallback bool
 }
 
-const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
-const apiKey string = "9fd2a189-3d57-4c02-8a55-5f0159bff2cf"
+var args []string = os.Args[1:]
+
+// const projID string = "e50b56df-95b7-4fa1-9061-83a7a9bea372"
+// const apiKey string = "9fd2a189-3d57-4c02-8a55-5f0159bff2cf"
+
+var projID string = args[0]
+var apiKey string = args[1]
+
+/* function to encode JSON data and POST it to PullString REST API */
 
 func pullStringReq(key string, val string, UUID string) PullstringResp {
 	var jsonStr []byte
@@ -45,6 +69,7 @@ func pullStringReq(key string, val string, UUID string) PullstringResp {
 	if err != nil {
 		println("You did it wrong.")
 	}
+
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 
@@ -54,17 +79,19 @@ func pullStringReq(key string, val string, UUID string) PullstringResp {
 		println("You did it wrong.")
 		return msg
 	}
-	println("JSON VALUES:")
-	println(string(msg.Conversation))
-
+	println("RESPONSE DATA:")
 	println(string(body))
 	return msg
 
 }
 
+/* main logic for routing and rendering responses */
+
 func main() {
 	router := martini.Classic()
 	router.Use(render.Renderer())
+
+	/* fallback/default page and unknown routes */
 
 	static := martini.Static("assets", martini.StaticOptions{Fallback: "/index.html"})
 	router.NotFound(static, http.NotFound)
